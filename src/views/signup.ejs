@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Registrarse</title>
+    <% include partials/head %>
+</head>
+
+<body class="signup">
+    <div class="container">
+        <div class="col-sm-6 mx-auto">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h1 class="text-center">
+                        <span class="fa fa-sign-in-alt"></span> Regístrate
+                    </h1>
+                    <% if (message.length > 0) { %>
+                        <div class="alert alert-danger">
+                            <%= message %>
+                        </div>
+                        <% } %>
+                            <form action="/signup" method="POST">
+                                <div class="form-group">
+                                    <label for="text">Usuario</label>
+                                    <input placeholder="Ingrese Usuario" type="text" name="username" id="user" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input placeholder="Ingrese Contraseña" id="password" type="password" name="password" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Confirmar Password</label>
+                                    <input placeholder="Repetir Contraseña" onkeypress="passwordMatch()" id="password2" type="password" name="cp" class="form-control">
+                                </div>
+                                <input onclick="encript()" type="submit" value="Enviar" class="btn btn-dark btn-lg">
+                            </form>
+                            <hr>
+                            <div class="text-center">
+                                <p>¿Ya tienes tienes una cuenta?
+                                    <a href="/login">Login</a>
+                                </p>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    const key = 'TheKeyIsHer';
+    var password, password2;
+    password = document.getElementById('password');
+    password2 = document.getElementById('password2');
+    password.onchange = password2.onkeyup = passwordMatch;
+
+    function encript() {
+        var encrypted = CryptoJS.TripleDES.encrypt(password.value, key)
+        return password.value = encrypted.toString();
+    }
+
+    function passwordMatch() {
+        if (password.value !== password2.value)
+            password2.setCustomValidity('Las contraseñas no coinciden.');
+        else
+            password2.setCustomValidity('');
+    }
+
+</script>
+
+</html>
